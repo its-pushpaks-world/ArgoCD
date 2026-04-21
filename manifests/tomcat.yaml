@@ -25,6 +25,23 @@ spec:
           image: tomcat:10.1-jdk17-temurin
           ports:
             - containerPort: 8080
+    
+          # ✅ Create ROOT app before starting Tomcat
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              mkdir -p /usr/local/tomcat/webapps/ROOT && \
+              cat <<EOF >/usr/local/tomcat/webapps/ROOT/index.jsp
+              <%@ page contentType="text/html;charset=UTF-8" %>
+              <html>
+              <head><title>Tomcat ROOT</title></head>
+              <body>
+                <h1>✅ Tomcat ROOT application is running</h1>
+              </body>
+              </html>
+              EOF
+              exec catalina.sh run
+
           readinessProbe:
             httpGet:
               path: /
