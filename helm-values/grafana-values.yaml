@@ -1,0 +1,23 @@
+provisioning:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Mimir
+          type: prometheus
+          access: proxy
+          url: http://grafana-mimir-query-frontend.observability.svc.cluster.local:8080/prometheus
+          jsonData:
+            httpHeaderName1: 'X-Scope-OrgID'
+            httpMethod: POST
+            prometheusType: Mimir
+          secureJsonData:
+            httpHeaderValue1: 'tenant-tomcat' # Matches the OTel config header
+        - name: Loki
+          type: loki
+          access: proxy
+          url: http://grafana-loki-gateway.observability.svc.cluster.local
+          jsonData:
+            httpHeaderName1: 'X-Scope-OrgID'
+          secureJsonData:
+            httpHeaderValue1: 'tenant-tomcat'
