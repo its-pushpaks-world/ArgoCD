@@ -1,0 +1,14 @@
+mimir:
+  structuredConfig:
+    multitenancy_enabled: true
+
+distributor:
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+      service.beta.kubernetes.io/aws-load-balancer-internal: "true" # Keep traffic within your AWS VPC
+
+# Minimal evaluation storage setup (using S3 in production is recommended)
+minio:
+  enabled: true
